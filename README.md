@@ -1,6 +1,6 @@
 # FileShare
 
-> v1.1.8：新增管理员存储空间配置，可设置单个文件上传上限和整个 `/app/files` 空间上限。
+> v1.2.2：新增管理员存储空间配置，可设置单个文件上传上限和整个 `/app/files` 空间上限。
 
 轻量、无数据库、无用户登录的 Node.js 文件分享系统。
 
@@ -94,7 +94,7 @@ http://服务器IP:30286
 GitHub Actions 已设置为**手动运行**，不会因为 push、Tag 或 Release 自动构建。进入 GitHub → Actions → Build and Push Docker Image → Run workflow，填写镜像 Tag（例如 `latest`）后运行。
 
 ```bash
-docker pull ghcr.io/YOUR_GITHUB_USERNAME/fileshare:latest
+docker pull ghcr.io/loop963/fileshare:latest
 ```
 
 然后把 `docker-compose.yml` 中的镜像名改成自己的 GitHub 仓库。
@@ -106,7 +106,7 @@ docker pull ghcr.io/YOUR_GITHUB_USERNAME/fileshare:latest
 在群晖 **Container Manager → 映像** 中下载：
 
 ```text
-ghcr.io/YOUR_GITHUB_USERNAME/fileshare:latest
+ghcr.io/loop963/fileshare:latest
 ```
 
 创建容器：
@@ -149,7 +149,7 @@ http://群晖IP:30286
 ```yaml
 services:
   fileshare:
-    image: ghcr.io/YOUR_GITHUB_USERNAME/fileshare:latest
+    image: ghcr.io/loop963/fileshare:latest
     container_name: fileshare
     restart: unless-stopped
     ports:
@@ -175,7 +175,7 @@ mkdir -p /volume1/docker/fileshare/data
 拉取镜像：
 
 ```bash
-docker pull ghcr.io/YOUR_GITHUB_USERNAME/fileshare:latest
+docker pull ghcr.io/loop963/fileshare:latest
 ```
 
 启动：
@@ -209,7 +209,7 @@ FileShare listening on :30286
 ## 更新镜像
 
 ```bash
-docker pull ghcr.io/YOUR_GITHUB_USERNAME/fileshare:latest
+docker pull ghcr.io/loop963/fileshare:latest
 docker stop fileshare
 docker rm fileshare
 ```
@@ -385,7 +385,7 @@ ghcr.io/YOUR_GITHUB_USERNAME/fileshare:latest
 得到：
 
 ```text
-ghcr.io/YOUR_GITHUB_USERNAME/fileshare:1.1.0
+ghcr.io/loop963/fileshare:1.1.0
 ```
 
 当前工作流构建以下多架构：
