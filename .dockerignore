@@ -1,8 +1,0 @@
-node_modules
-npm-debug.log
-.git
-.github
-files/*
-data/*.json
-.DS_Store
-*.zip
