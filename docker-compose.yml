@@ -1,0 +1,14 @@
+services:
+  fileshare:
+    image: ghcr.io/YOUR_GITHUB_USERNAME/fileshare:latest
+    container_name: fileshare
+    restart: unless-stopped
+    ports:
+      - "30286:30286"
+    environment:
+      TZ: Asia/Shanghai
+      PORT: 30286
+      ADMIN_PASSWORD: change-me-now
+    volumes:
+      - ./files:/app/files
+      - ./data:/app/data

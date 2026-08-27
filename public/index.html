@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FileShare</title>
+<style>
+:root{--primary:#3b73ed;--primary2:#2563eb;--bg:#f5f8ff;--card:#fff;--line:#e7ebf3;--text:#172033;--muted:#738096;--green:#20b26b;--orange:#f59e0b;--red:#ef4444;--purple:#7355dc;--shadow:0 8px 30px rgba(45,79,145,.08)}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif;color:var(--text);background:linear-gradient(135deg,#f6f9ff 0%,#f8fbff 48%,#f5f7ff 100%)}
+button,input,select{font:inherit}button{cursor:pointer}.app{min-height:100vh}.topbar{height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;background:rgba(255,255,255,.88);border-bottom:1px solid rgba(226,232,240,.75);backdrop-filter:blur(14px);position:sticky;top:0;z-index:20}.brand{display:flex;align-items:center;gap:12px}.logo{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,#3b82f6,#4f7df1);display:grid;place-items:center;color:#fff;box-shadow:0 7px 16px #3b82f633}.logo svg{width:23px}.brand-name{font-size:22px;font-weight:800;letter-spacing:-.5px}.tagline{color:#657087;font-size:14px;margin-left:6px}.top-actions{display:flex;gap:10px;align-items:center}.icon-btn,.ghost-btn{height:40px;border:1px solid #e1e6ef;background:#fff;color:#27344a;border-radius:10px;padding:0 13px;display:inline-flex;align-items:center;gap:8px;box-shadow:0 2px 7px #19366b08}.icon-btn{width:42px;justify-content:center;padding:0}.avatar{width:26px;height:26px;border-radius:50%;background:#eef2f8;display:grid;place-items:center;color:#657087}.layout{max-width:1500px;margin:0 auto;padding:22px 18px 28px;display:grid;grid-template-columns:248px 1fr;gap:16px}.sidebar{background:#fff;border:1px solid var(--line);border-radius:13px;min-height:calc(100vh - 116px);box-shadow:var(--shadow);padding:18px 13px;display:flex;flex-direction:column}.nav-title{font-size:12px;color:#a0a9b8;padding:5px 12px 8px;text-transform:uppercase;letter-spacing:1px}.nav-item{border:0;background:transparent;width:100%;text-align:left;padding:12px 14px;border-radius:10px;color:#3b4659;display:flex;align-items:center;gap:11px;font-weight:600;margin:2px 0}.nav-item:hover{background:#f3f7ff;color:var(--primary2)}.nav-item.active{background:linear-gradient(90deg,#edf4ff,#f3f7ff);color:var(--primary2)}.nav-icon{width:20px;text-align:center;font-size:18px}.sidebar-spacer{flex:1}.storage{border:1px solid #e1e7f0;border-radius:11px;padding:14px;margin:10px 0 0}.storage h4{margin:0 0 13px;font-size:14px}.storage-line{display:flex;justify-content:space-between;color:#647084;font-size:12px;margin:5px 0}.bar{height:7px;border-radius:99px;background:#e9edf4;overflow:hidden;margin-top:10px}.bar i{display:block;height:100%;width:12%;background:linear-gradient(90deg,#3977ed,#67a0ff);border-radius:99px}.content{min-width:0}.view{display:none}.view.active{display:block}.card{background:rgba(255,255,255,.96);border:1px solid var(--line);border-radius:13px;box-shadow:var(--shadow);padding:20px;margin-bottom:16px}.section-head{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:16px}.title-wrap{display:flex;align-items:center;gap:11px}.section-icon{font-size:25px}.section-title{margin:0;font-size:21px;letter-spacing:-.3px}.section-sub{margin:4px 0 0;color:var(--muted);font-size:13px}.actions{display:flex;gap:9px;align-items:center;flex-wrap:wrap}.primary,.success,.warning,.danger,.outline{border:1px solid transparent;border-radius:9px;padding:9px 14px;font-weight:650;display:inline-flex;align-items:center;gap:7px}.primary{background:linear-gradient(135deg,#3d77ee,#2865df);color:#fff;box-shadow:0 5px 12px #3b73ed25}.success{background:#eefaf4;color:#15975a;border-color:#bce9d1}.warning{background:#fff7e5;color:#c47b00;border-color:#f7dc9b}.danger{background:#fff1f1;color:#df3434;border-color:#ffcaca}.outline{background:#fff;color:#415069;border-color:#dfe5ee}.primary:hover{filter:brightness(.98);transform:translateY(-1px)}button:disabled{opacity:.5;cursor:not-allowed}.toolbar-divider{width:1px;height:26px;background:#e5e9f0}.crumbs{display:flex;align-items:center;gap:7px;color:#738096;font-size:13px;margin:3px 0 15px}.crumb{color:#4d72bb;cursor:pointer}.crumb.current{color:#202b3d;font-weight:700}.table-wrap{overflow:auto;border:1px solid #e5e9f0;border-radius:9px}.table{width:100%;border-collapse:collapse;min-width:850px}.table th{font-size:13px;color:#58657a;background:#fafbfc;text-align:left;padding:12px 14px;border-bottom:1px solid #e5e9f0;font-weight:700}.table td{padding:11px 14px;border-bottom:1px solid #edf0f5;font-size:13px}.table tr:last-child td{border-bottom:0}.table tbody tr:hover{background:#fbfcff}.file-name{display:flex;align-items:center;gap:0;min-width:240px}.file-icon{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;font-size:17px;background:#eef4ff}.folder-icon{background:#fff4d9}.folder-emoji{font-size:20px;line-height:1;margin-right:8px;display:inline-flex;align-items:center}.file-main{font-weight:650;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:360px}.muted{color:var(--muted)}.row-actions{display:flex;gap:6px;justify-content:flex-end}.small-btn{height:32px;border-radius:8px;border:1px solid #dce4f0;background:#fff;color:#48607f;padding:0 10px;font-size:12px;display:inline-flex;align-items:center;gap:5px}.small-btn:hover{background:#f6f9ff;color:var(--primary2)}.small-btn.red{color:#e34646;border-color:#ffd2d2;background:#fffafa}.status{display:inline-flex;align-items:center;padding:4px 9px;border-radius:7px;font-size:12px;font-weight:700}.status.ok{background:#e9f9f0;color:#13a05c}.status.expired{background:#eef0f4;color:#677184}.status.used{background:#fff2dc;color:#df8a08}.status.cancel{background:#fff0f0;color:#db4141}.check{width:16px;height:16px}.pagination{display:flex;justify-content:center;align-items:center;gap:7px;margin-top:15px;color:#657087;font-size:13px}.page-btn{width:34px;height:32px;border:1px solid #dfe5ee;background:#fff;border-radius:8px;color:#506079}.page-btn.active{border-color:#4d7ff0;color:#1677ff;background:#f2f6ff}.search{height:40px;border:1px solid #dfe5ee;border-radius:10px;padding:0 12px;min-width:230px;outline:none}.search:focus,input:focus,select:focus{border-color:#78a0f6;box-shadow:0 0 0 3px #3b73ed12}.empty{text-align:center;padding:45px;color:#8994a6}.drop{margin-top:13px;border:1.5px dashed #bfcbe0;background:#fbfcff;border-radius:10px;padding:13px;text-align:center;color:#7a879a;font-size:13px}.drop.drag{background:#f0f6ff;border-color:#4b7ff1;color:#2d6de4}.share-path{font-weight:650}.subpath{display:block;color:#8b96a8;font-size:11px;margin-top:3px}.modal{position:fixed;inset:0;background:rgba(15,23,42,.38);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;padding:18px;z-index:100}.modal.show{display:flex}.modal-box{width:min(560px,100%);background:#fff;border-radius:16px;box-shadow:0 25px 80px #0f172a33;overflow:hidden}.modal-head{padding:18px 20px;border-bottom:1px solid #edf0f5;display:flex;justify-content:space-between;align-items:center}.modal-head h3{margin:0;font-size:18px}.close{border:0;background:transparent;font-size:24px;color:#8994a6;cursor:pointer}.modal-body{padding:20px}.modal-foot{padding:14px 20px;background:#fafbfc;border-top:1px solid #edf0f5;display:flex;justify-content:flex-end;gap:8px}.field{margin-bottom:15px}.field label{display:block;font-size:13px;font-weight:700;margin-bottom:7px;color:#3f4b5e}.input,.select{width:100%;height:42px;border:1px solid #dce3ee;border-radius:9px;padding:0 12px;outline:none;background:#fff}.field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.radio-row{display:flex;gap:16px;align-items:center}.radio-row label{font-weight:500;margin:0}.toast{position:fixed;right:22px;bottom:22px;background:#182235;color:#fff;border-radius:10px;padding:11px 15px;box-shadow:0 10px 35px #0002;z-index:200;opacity:0;transform:translateY(10px);transition:.2s;pointer-events:none}.toast.show{opacity:1;transform:translateY(0)}.login-logo{text-align:center;font-size:42px}.login-title{text-align:center;margin:8px 0 4px}.login-sub{text-align:center;color:var(--muted);font-size:13px;margin-bottom:20px}.about{line-height:1.8;color:#59667a}.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}.stat{padding:16px;border:1px solid #e7ebf2;border-radius:11px;background:#fbfcff}.stat .n{font-size:22px;font-weight:800}.stat .l{color:#7b879a;font-size:12px;margin-top:3px}.dim{--bg:#eef2f7;--card:#fff;--line:#dfe5ee;--text:#263247;--muted:#69778c}.dim .topbar{background:rgba(248,250,252,.92)}.dim .sidebar,.dim .card{box-shadow:0 6px 24px rgba(45,55,72,.06)}.footer{text-align:center;color:#8a94a5;font-size:12px;padding:4px 0 12px}
+@media(max-width:950px){.layout{grid-template-columns:1fr}.sidebar{min-height:auto;position:static}.sidebar nav{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}.sidebar-spacer{display:none}.storage{display:none}.topbar{padding:0 15px}.tagline{display:none}.layout{padding:12px}.card{padding:15px}.section-head{align-items:flex-start;flex-direction:column}.actions{width:100%}.search{width:100%;min-width:0}.stat-grid{grid-template-columns:1fr}}
+@media(max-width:560px){.brand-name{font-size:18px}.top-actions .ghost-btn span{display:none}.top-actions{gap:5px}.field-row{grid-template-columns:1fr}.sidebar nav{grid-template-columns:1fr 1fr 1fr}.nav-item{justify-content:center;padding:10px 5px}.nav-item .nav-icon{margin:0}.table{min-width:780px}}
+
+.upload-progress-wrap{padding:8px 2px 4px}.upload-progress-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}.upload-progress-head b{font-size:15px}.upload-progress-head span{font-size:15px;font-weight:800;color:#1677ff}.upload-progress{height:12px;background:#e9eef7;border-radius:999px;overflow:hidden;box-shadow:inset 0 1px 2px #1d3b6b12}.upload-progress i{display:block;width:0;height:100%;border-radius:999px;background:#1677ff;transition:width .12s ease}.upload-progress i.error{background:#ef4444}.upload-progress-info{display:flex;justify-content:space-between;gap:12px;margin-top:10px;color:#738096;font-size:12px;line-height:1.5}.upload-progress-info span:first-child{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.upload-progress-info span:last-child{white-space:nowrap;font-variant-numeric:tabular-nums}
+.settings-tabs{display:flex;gap:4px;border-bottom:1px solid #e7ebf2;margin:-4px -2px 20px;padding-bottom:7px}
+.settings-tab{border:0;background:transparent;color:#738096;padding:8px 13px;border-radius:8px;font-weight:700;cursor:pointer}
+.settings-tab.active{background:#edf4ff;color:#1677ff}
+.input-suffix{display:flex;align-items:center;gap:10px}
+.input-suffix .input{flex:1}
+.input-suffix>span{min-width:34px;color:#647084;font-size:13px}
+.settings-note{margin-top:18px;padding:12px;border-radius:9px;background:#f6f8fc;color:#667389;font-size:12px;line-height:1.7}
+
+/* v1.2.1 visual redesign */
+.topbar{height:94px;padding:0 32px;background:rgba(248,251,255,.92);border-bottom:1px solid #e8edf6;box-shadow:0 1px 0 rgba(255,255,255,.9);z-index:60}
+.brand{gap:13px}.logo{width:52px;height:52px;border-radius:15px;box-shadow:0 10px 24px rgba(59,115,237,.22)}.logo svg{width:29px}.brand-name{font-size:29px;letter-spacing:-.8px}.tagline{font-size:16px;color:#66758d;margin-left:14px}
+.top-actions{gap:9px}.top-search{height:50px;width:min(360px,32vw);display:flex;align-items:center;border:1px solid #e1e7f1;background:#fff;border-radius:14px;box-shadow:0 5px 18px rgba(42,75,135,.06);overflow:hidden}.top-search input{height:100%;flex:1;border:0;outline:0;padding:0 16px;background:transparent;color:#26344b;font-size:14px}.top-search input::placeholder{color:#9aa6b8}.top-search-btn{width:50px;height:100%;border:0;background:transparent;color:#263b58;font-size:25px}.icon-btn{height:50px;width:50px;border-radius:13px;background:#fff;border-color:#dfe6f2;box-shadow:0 4px 14px rgba(31,58,102,.05);font-size:22px}.settings-trigger{border-color:#4d83f1;color:#243a5c;box-shadow:0 0 0 1px #4d83f122,0 5px 18px rgba(59,115,237,.08)}.settings-caret{font-size:20px;margin-left:1px}.settings-wrap{position:relative;display:flex;gap:8px;align-items:center}.settings-menu{position:absolute;right:0;top:60px;width:240px;background:rgba(255,255,255,.98);border:1px solid #e4e9f2;border-radius:16px;box-shadow:0 22px 55px rgba(32,55,94,.16);padding:12px;display:none;z-index:100}.settings-menu.show{display:block}.menu-title{font-size:13px;font-weight:800;color:#44536b;padding:6px 10px 8px}.menu-user-title{padding-top:13px}.menu-item{width:100%;height:42px;border:0;background:transparent;border-radius:10px;display:flex;align-items:center;gap:11px;padding:0 10px;text-align:left;color:#33445e;font-size:14px}.menu-item:hover{background:#f3f7ff;color:#1f64dc}.menu-icon{width:20px;text-align:center;font-size:18px;color:#4b5d78}.danger-item{color:#ef4444}.danger-item .menu-icon{color:#ef4444}.menu-divider{height:1px;background:#edf0f5;margin:7px 8px}
+.layout{max-width:1680px;grid-template-columns:238px minmax(0,1fr);gap:20px;padding:24px 18px 26px}.sidebar{min-height:calc(100vh - 146px);border-radius:18px;padding:22px 16px;box-shadow:0 8px 30px rgba(45,79,145,.055)}.nav-title{font-size:13px;padding:8px 14px 11px}.nav-item{padding:13px 14px;border-radius:12px;font-size:15px}.storage{border-radius:15px;padding:16px;margin:12px 0 0}.content{min-width:0}.card{border-radius:18px;padding:28px 26px;box-shadow:0 10px 35px rgba(45,79,145,.065);min-height:calc(100vh - 194px)}.section-head{margin-bottom:18px}.section-title{font-size:26px}.section-sub{font-size:14px}.section-icon{font-size:28px}.actions{gap:10px}.primary,.success,.warning,.outline{border-radius:11px;padding:11px 16px;font-size:14px}.table-wrap{border-radius:12px}.table{min-width:900px}.table th{padding:14px 16px;font-size:14px}.table td{padding:15px 16px;font-size:14px}.file-main{max-width:520px}.drop{margin-top:22px;border-radius:13px;padding:46px 16px;min-height:145px;display:flex;align-items:center;justify-content:center;font-size:15px;color:#7e8ba0}.footer{padding:8px 0 18px;font-size:13px}
+@media(max-width:1050px){.topbar{padding:0 18px}.top-search{width:300px}.layout{grid-template-columns:220px minmax(0,1fr);gap:14px}.card{padding:22px 18px}}
+@media(max-width:760px){.topbar{height:78px}.brand-name{font-size:21px}.logo{width:42px;height:42px}.tagline{display:none}.top-search{width:210px;height:44px}.icon-btn{width:44px;height:44px}.settings-menu{top:54px}.layout{grid-template-columns:1fr;padding:12px}.sidebar{min-height:auto}.sidebar nav{display:grid;grid-template-columns:repeat(3,1fr)}.storage{display:none}.card{min-height:auto}}
+@media(max-width:560px){.top-search{display:none}.settings-caret{display:none}.settings-menu{right:-5px;width:225px}.brand-name{font-size:19px}.layout{padding:10px}.sidebar nav{grid-template-columns:1fr 1fr 1fr}.nav-item{justify-content:center}.nav-item .nav-icon{margin:0}}
+
+/* v1.2.2 mobile responsive */
+@media (max-width: 700px){
+  html,body{width:100%;overflow-x:hidden}
+  .topbar{height:auto;min-height:68px;padding:10px 12px;position:sticky;top:0}
+  .brand{min-width:0;gap:9px}.logo{width:40px;height:40px;border-radius:12px}.logo svg{width:24px}.brand-name{font-size:19px}.tagline{display:none}
+  .top-actions{margin-left:auto}.top-search{display:none}.settings-wrap{gap:5px}.icon-btn{width:42px;height:42px;border-radius:11px}.settings-caret{display:flex}
+  .settings-menu{position:fixed;top:62px;right:10px;left:auto;width:min(280px,calc(100vw - 20px));max-height:calc(100vh - 76px);overflow:auto;padding:10px;border-radius:14px}
+  .menu-item{height:44px;font-size:14px}.menu-title{padding-left:9px}
+  .layout{display:block;width:100%;max-width:none;padding:8px}
+  .sidebar{min-height:0;padding:8px;border-radius:14px;margin-bottom:8px}
+  .nav-title{display:none}.sidebar nav{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px}
+  .nav-item{min-width:0;justify-content:center;padding:10px 4px;margin:0;font-size:13px;gap:5px}.nav-icon{font-size:16px;width:auto}
+  .storage{display:none}.content{width:100%}
+  .card{padding:13px 10px;border-radius:14px;margin-bottom:8px;min-height:auto}
+  .section-head{gap:10px;margin-bottom:12px}.title-wrap{gap:8px}.section-icon{font-size:24px}.section-title{font-size:20px}.section-sub{font-size:12px}
+  .actions{width:100%;display:grid;grid-template-columns:1fr 1fr;gap:7px}.actions .primary,.actions .success,.actions .warning,.actions .outline{width:100%;justify-content:center;padding:10px 7px;font-size:13px}
+  .crumbs{overflow-x:auto;white-space:nowrap;padding-bottom:3px;margin-bottom:10px;-webkit-overflow-scrolling:touch}
+  .table-wrap{border:0;overflow:visible;border-radius:0}.table{display:block;width:100%;min-width:0!important}.table thead{display:none}.table tbody{display:block}.table tbody tr{display:block;background:#fff;border:1px solid #e6ebf3;border-radius:12px;margin-bottom:8px;padding:7px 9px;box-shadow:0 3px 12px rgba(45,79,145,.045)}
+  .table td{display:flex;align-items:center;gap:8px;border:0;padding:6px 2px;font-size:13px;min-width:0;line-height:1.4}.table td::before{flex:0 0 58px;color:#8a96a8;font-size:11px;font-weight:600}.table td:nth-child(1)::before{content:'名称'}.table td:nth-child(2)::before{content:'类型'}.table td:nth-child(3)::before{content:'大小'}.table td:nth-child(4)::before{content:'修改时间'}.table td:nth-child(5)::before{content:'操作'}
+  .table td:first-child{padding-top:5px}.table td:last-child{padding-top:8px;border-top:1px solid #f0f2f6;margin-top:4px;align-items:flex-start}.file-name{width:100%;min-width:0}.file-main{max-width:none;white-space:normal;overflow-wrap:anywhere;word-break:break-word}.folder-emoji{font-size:19px;margin-right:4px;flex:0 0 auto}
+  .row-actions{width:100%;display:flex;flex-wrap:wrap;justify-content:flex-start;gap:6px}.small-btn{min-height:34px;height:auto;padding:7px 9px;font-size:12px;white-space:nowrap}
+  .empty{padding:32px 10px}.drop{margin-top:10px;min-height:92px;padding:24px 10px;font-size:13px;text-align:center}
+  .pagination{flex-wrap:wrap;line-height:1.8}.page-btn{min-width:34px}
+  .top-search{width:100%}
+  .modal{padding:8px;align-items:flex-end}.modal-box{width:100%;max-height:92vh;border-radius:16px 16px 10px 10px;display:flex;flex-direction:column}.modal-head{padding:15px 16px;flex:0 0 auto}.modal-body{padding:16px;overflow:auto;-webkit-overflow-scrolling:touch}.modal-foot{padding:11px 16px;flex:0 0 auto;position:sticky;bottom:0}.modal-foot button{flex:1;min-height:42px}.field-row{grid-template-columns:1fr}.radio-row{flex-wrap:wrap;gap:10px}.input,.select{height:44px}
+  .upload-progress-wrap{padding:5px 0}.upload-progress-info{flex-wrap:wrap;gap:5px}
+  .stat-grid{grid-template-columns:1fr}.footer{font-size:11px;padding-bottom:10px}
+  /* share management: compact mobile cards */
+  #view-shares .section-head .actions{display:flex;flex-direction:column;align-items:stretch}.search{width:100%;min-width:0}.table[style]{min-width:0!important}
+  #view-shares .table td:nth-child(1)::before{content:'选择'}.table td:nth-child(6)::before{content:'下载'}.table td:nth-child(7)::before{content:'创建时间'}.table td:nth-child(8)::before{content:'操作'}
+  #view-shares .table td:nth-child(2)::before{content:'路径'}.table td:nth-child(3)::before{content:'状态'}
+  #view-shares .table td:nth-child(4)::before{content:'密码'}.table td:nth-child(5)::before{content:'有效期'}
+}
+@media (max-width: 420px){
+  .brand-name{font-size:18px}.settings-caret{display:none}.topbar{padding:9px 10px}.layout{padding:6px}.card{padding:11px 8px}
+  .actions{grid-template-columns:1fr}.section-title{font-size:19px}.section-sub{font-size:11px}.nav-item{font-size:12px}
+  .table td::before{flex-basis:50px}.small-btn{padding:7px 8px}.modal{padding:4px}.modal-box{max-height:94vh}
+}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="topbar">
+  <div class="brand"><div class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 18a5 5 0 1 1 1.4-9.8A7 7 0 0 1 21 10.5 4.5 4.5 0 0 1 19 19H7Z"/></svg></div><span class="brand-name">FileShare</span><span class="tagline">简单 · 安全 · 高效</span></div>
+  <div class="top-actions">
+    <div class="top-search"><input id="fileSearchTop" type="search" placeholder="搜索文件或文件夹…" autocomplete="off"><button id="fileSearchBtn" class="top-search-btn" title="搜索">⌕</button></div>
+    <div class="settings-wrap">
+      <button class="icon-btn settings-trigger" id="settingsTop" title="设置" aria-label="设置">⚙</button>
+      <button class="icon-btn settings-caret" id="settingsCaret" title="打开设置菜单" aria-label="打开设置菜单">⌄</button>
+      <div class="settings-menu" id="settingsMenu" role="menu">
+        <div class="menu-title">管理设置</div>
+        <button class="menu-item" data-menu-action="storage"><span class="menu-icon">▣</span>存储空间</button>
+        <button class="menu-item" data-menu-action="guests"><span class="menu-icon">♧</span>来宾账号</button>
+        <button class="menu-item" data-menu-action="shares"><span class="menu-icon">⌯</span>分享设置</button>
+        <button class="menu-item" data-menu-action="system"><span class="menu-icon">⚙</span>系统设置</button>
+        <div class="menu-divider"></div>
+        <div class="menu-title menu-user-title">管理员</div>
+        <button class="menu-item" data-menu-action="password"><span class="menu-icon">♢</span>修改密码</button>
+        <button class="menu-item danger-item" data-menu-action="logout"><span class="menu-icon">↪</span>退出登录</button>
+      </div>
+    </div>
+  </div>
+</header>
+<div class="layout">
+<aside class="sidebar">
+  <div class="nav-title">工作台</div>
+  <nav>
+    <button class="nav-item active" data-view="files"><span class="nav-icon">▣</span>文件管理</button>
+    <button class="nav-item" data-view="shares"><span class="nav-icon">↗</span>分享管理</button>
+    <button class="nav-item" data-view="about"><span class="nav-icon">ⓘ</span>关于</button>
+  </nav>
+  <div class="sidebar-spacer"></div>
+  <div class="storage"><h4>存储空间</h4><div class="storage-line"><span>已使用</span><b id="storageUsed">计算中…</b></div><div class="storage-line"><span>文件数量</span><b id="fileCount">—</b></div><div class="bar"><i id="storageBar"></i></div><div class="muted" style="font-size:11px;margin-top:8px">空间使用情况由 Docker 宿主机管理</div></div>
+</aside>
+<main class="content">
+<section class="view active" id="view-files">
+<div class="card">
+  <div class="section-head"><div><div class="title-wrap"><span class="section-icon">📁</span><div><h2 class="section-title">文件管理</h2><p class="section-sub">管理 /files 目录中的文件和文件夹</p></div></div></div>
+  <div class="actions"><button class="primary" id="uploadBtn">↥ 上传文件</button><button class="success" id="folderBtn">▣ 上传文件夹</button><button class="warning" id="newFolderBtn">＋ 新建文件夹</button><button class="outline" id="refreshBtn">⟳</button></div></div>
+  <div class="crumbs" id="crumbs"></div>
+  <input id="fileInput" type="file" multiple hidden><input id="folderInput" type="file" webkitdirectory directory multiple hidden>
+  <div class="table-wrap"><table class="table"><thead><tr><th>名称</th><th>类型</th><th>大小</th><th>修改时间</th><th style="text-align:right">操作</th></tr></thead><tbody id="fileRows"></tbody></table></div>
+  <div class="pagination" id="filePager"></div>
+  <div class="drop" id="dropZone">也可以把文件拖到这里上传</div>
+</div></section>
+
+<section class="view" id="view-shares">
+<div class="card"><div class="section-head"><div><div class="title-wrap"><span class="section-icon">🔗</span><div><h2 class="section-title">分享管理</h2><p class="section-sub">查看、修改和取消所有分享链接</p></div></div></div><div class="actions"><input class="search" id="shareSearch" placeholder="搜索分享（名称/路径）"><button class="danger" id="batchCancelBtn">▣ 批量取消分享</button><button class="outline" id="shareRefresh">⟳ 刷新</button></div></div>
+  <div class="table-wrap"><table class="table" style="min-width:1000px"><thead><tr><th><input class="check" type="checkbox" id="selectAll"></th><th>名称/路径</th><th>状态</th><th>密码</th><th>有效期</th><th>下载情况</th><th>创建时间</th><th style="text-align:right">操作</th></tr></thead><tbody id="shareRows"></tbody></table></div><div class="pagination" id="sharePager"></div>
+</div></section>
+
+<section class="view" id="view-about"><div class="card"><div class="title-wrap"><span class="section-icon">💙</span><div><h2 class="section-title">关于 FileShare</h2><p class="section-sub">简单 · 安全 · 高效的无数据库文件分享系统</p></div></div><div class="stat-grid" style="margin-top:20px"><div class="stat"><div class="n">Node.js</div><div class="l">服务端运行环境</div></div><div class="stat"><div class="n">30286</div><div class="l">容器服务端口</div></div><div class="stat"><div class="n">GHCR</div><div class="l">自动构建镜像</div></div></div><div class="about"><p>FileShare 将实际文件保存在 <code>/files</code>，分享和管理员配置保存在 <code>/data</code>，无需 MySQL、SQLite 或其他数据库。</p><p>支持文件和文件夹分享，文件夹会在下载时流式打包为 ZIP。分享可设置密码、有效期和最大下载次数。</p><p>Docker 镜像支持 linux/amd64、linux/arm64、linux/arm/v7。</p></div></div></section>
+<div class="footer">FileShare v1.2.2　|　💙 让文件分享更简单</div>
+</main></div></div>
+
+<div class="modal" id="modal"><div class="modal-box"><div class="modal-head"><h3 id="modalTitle"></h3><button class="close" id="modalClose">×</button></div><div class="modal-body" id="modalBody"></div><div class="modal-foot" id="modalFoot"></div></div></div>
+<div class="toast" id="toast"></div>
+<script src="/app.js"></script>
+</body></html>
