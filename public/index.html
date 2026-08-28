@@ -67,6 +67,30 @@ button,input,select{font:inherit}button{cursor:pointer}.app{min-height:100vh}.to
   .actions{grid-template-columns:1fr}.section-title{font-size:19px}.section-sub{font-size:11px}.nav-item{font-size:12px}
   .table td::before{flex-basis:50px}.small-btn{padding:7px 8px}.modal{padding:4px}.modal-box{max-height:94vh}
 }
+
+/* v1.2.3 compact desktop redesign */
+@media (min-width:951px){
+  .topbar{height:58px;padding:0 24px}
+  .brand{gap:9px}.logo{width:34px;height:34px;border-radius:10px}.logo svg{width:20px}
+  .brand-name{font-size:20px}.tagline{font-size:13px;margin-left:3px}
+  .top-actions{gap:7px}.top-search{width:min(420px,34vw);height:36px}.top-search input{height:36px}
+  .top-search-btn,.icon-btn{height:36px}.icon-btn{width:38px;border-radius:10px}
+  .layout{max-width:none;margin:0;padding:12px 20px 20px;grid-template-columns:210px minmax(0,1fr);gap:14px}
+  .sidebar{min-height:calc(100vh - 90px);padding:12px 10px;border-radius:14px}
+  .nav-title{padding:5px 10px 7px}.nav-item{padding:10px 12px;margin:1px 0}
+  .content{min-width:0}.card{padding:14px 16px;margin-bottom:10px;border-radius:14px}
+  .section-head{margin-bottom:10px;min-height:54px;gap:12px}
+  .section-icon{font-size:23px}.title-wrap{gap:9px}.section-title{font-size:20px}.section-sub{margin-top:2px;font-size:12px}
+  .actions{gap:7px;flex-wrap:nowrap}.primary,.success,.warning,.outline{height:38px;padding:0 14px;border-radius:10px;white-space:nowrap}
+  .crumbs{margin:0 0 10px;font-size:12px}
+  .table th{padding:10px 12px}.table td{padding:10px 12px}
+  .drop{margin-top:10px;padding:11px;min-height:0}.footer{padding:2px 0 6px}
+  .storage{padding:12px;margin:12px 0 0;border-radius:12px}.storage h4{margin-bottom:10px}
+  .storage-line{margin:5px 0}.bar{margin-top:8px}
+}
+/* hide the old About view completely even if cached HTML is served */
+#view-about,[data-view="about"]{display:none!important}
+
 </style>
 </head>
 <body>
@@ -98,10 +122,9 @@ button,input,select{font:inherit}button{cursor:pointer}.app{min-height:100vh}.to
   <nav>
     <button class="nav-item active" data-view="files"><span class="nav-icon">▣</span>文件管理</button>
     <button class="nav-item" data-view="shares"><span class="nav-icon">↗</span>分享管理</button>
-    <button class="nav-item" data-view="about"><span class="nav-icon">ⓘ</span>关于</button>
   </nav>
   <div class="sidebar-spacer"></div>
-  <div class="storage"><h4>存储空间</h4><div class="storage-line"><span>已使用</span><b id="storageUsed">计算中…</b></div><div class="storage-line"><span>文件数量</span><b id="fileCount">—</b></div><div class="bar"><i id="storageBar"></i></div><div class="muted" style="font-size:11px;margin-top:8px">空间使用情况由 Docker 宿主机管理</div></div>
+  <div class="storage"><h4>存储空间</h4><div class="storage-line"><span>已使用</span><b id="storageUsed">计算中…</b></div><div class="storage-line"><span>文件数量</span><b id="fileCount">—</b></div><div class="bar"><i id="storageBar"></i></div></div>
 </aside>
 <main class="content">
 <section class="view active" id="view-files">
@@ -120,8 +143,8 @@ button,input,select{font:inherit}button{cursor:pointer}.app{min-height:100vh}.to
   <div class="table-wrap"><table class="table" style="min-width:1000px"><thead><tr><th><input class="check" type="checkbox" id="selectAll"></th><th>名称/路径</th><th>状态</th><th>密码</th><th>有效期</th><th>下载情况</th><th>创建时间</th><th style="text-align:right">操作</th></tr></thead><tbody id="shareRows"></tbody></table></div><div class="pagination" id="sharePager"></div>
 </div></section>
 
-<section class="view" id="view-about"><div class="card"><div class="title-wrap"><span class="section-icon">💙</span><div><h2 class="section-title">关于 FileShare</h2><p class="section-sub">简单 · 安全 · 高效的无数据库文件分享系统</p></div></div><div class="stat-grid" style="margin-top:20px"><div class="stat"><div class="n">Node.js</div><div class="l">服务端运行环境</div></div><div class="stat"><div class="n">30286</div><div class="l">容器服务端口</div></div><div class="stat"><div class="n">GHCR</div><div class="l">自动构建镜像</div></div></div><div class="about"><p>FileShare 将实际文件保存在 <code>/files</code>，分享和管理员配置保存在 <code>/data</code>，无需 MySQL、SQLite 或其他数据库。</p><p>支持文件和文件夹分享，文件夹会在下载时流式打包为 ZIP。分享可设置密码、有效期和最大下载次数。</p><p>Docker 镜像支持 linux/amd64、linux/arm64、linux/arm/v7。</p></div></div></section>
-<div class="footer">FileShare v1.2.2　|　💙 让文件分享更简单</div>
+
+<div class="footer">FileShare v1.2.3　|　💙 让文件分享更简单</div>
 </main></div></div>
 
 <div class="modal" id="modal"><div class="modal-box"><div class="modal-head"><h3 id="modalTitle"></h3><button class="close" id="modalClose">×</button></div><div class="modal-body" id="modalBody"></div><div class="modal-foot" id="modalFoot"></div></div></div>
