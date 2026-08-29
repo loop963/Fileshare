@@ -1,6 +1,6 @@
 const $ = s => document.querySelector(s);
 const $$ = s => [...document.querySelectorAll(s)];
-const state = { path: '', files: [], filePage: 1, sharePage: 1, shares: [], shareQuery: '', pageSize: 10 };
+const state = { path: '', files: [], filePage: 1, sharePage: 1, shares: [], shareQuery: '', pageSize: 10, fileSortKey: 'name', fileSortDir: 'asc' };
 let adminPassword = sessionStorage.getItem('fileshare_admin') || '';
 let guestToken = sessionStorage.getItem('fileshare_guest') || '';
 let guestMode = !!guestToken;
@@ -105,18 +105,42 @@ async function loadFiles(){
   try{const d=await api('/api/files?path='+encodeURIComponent(state.path));state.files=d.items;renderFiles();renderCrumbs();loadStorage();}
   catch(e){if(e.status===401){adminPassword='';sessionStorage.removeItem('fileshare_admin');await login();loadFiles();}else toast(e.message);}
 }
+function sortedFiles(){
+  const list=[...state.files];
+  const key=state.fileSortKey, dir=state.fileSortDir==='asc'?1:-1;
+  return list.sort((a,b)=>{
+    // 文件夹优先，保持网盘常见的浏览习惯；同类型再按所选字段排序
+    if(a.type!==b.type)return a.type==='dir'?-1:1;
+    let av,bv;
+    if(key==='size'){av=a.type==='dir'?-1:Number(a.size||0);bv=b.type==='dir'?-1:Number(b.size||0);}
+    else if(key==='mtime'){av=Date.parse(a.mtime)||0;bv=Date.parse(b.mtime)||0;}
+    else {av=String(a.name||'').toLocaleLowerCase('zh-CN');bv=String(b.name||'').toLocaleLowerCase('zh-CN');}
+    if(av<bv)return -1*dir;if(av>bv)return 1*dir;
+    return String(a.name||'').localeCompare(String(b.name||''),'zh-CN',{numeric:true,sensitivity:'base'});
+  });
+}
+function sortIndicator(key){return state.fileSortKey===key?(state.fileSortDir==='asc'?' ↑':' ↓'):'';}
+function setFileSort(key){
+  if(state.fileSortKey===key)state.fileSortDir=state.fileSortDir==='asc'?'desc':'asc';
+  else {state.fileSortKey=key;state.fileSortDir='asc';}
+  state.filePage=1;renderFiles();
+}
 function renderFiles(){
-  const start=(state.filePage-1)*state.pageSize;const rows=state.files.slice(start,start+state.pageSize);
+  const sorted=sortedFiles();
+  const arrows={name:'#sortNameArrow',size:'#sortSizeArrow',mtime:'#sortMtimeArrow'};
+  Object.entries(arrows).forEach(([k,sel])=>{const el=$(sel);if(el)el.textContent=sortIndicator(k);});
+  const start=(state.filePage-1)*state.pageSize;const rows=sorted.slice(start,start+state.pageSize);
   $('#fileRows').innerHTML=rows.length?rows.map(x=>{
     let actions='';
-    if(guestMode){ actions=`<button class="small-btn" data-act="download" data-path="${esc(x.path)}">↓ 下载</button>${x.type==='dir'?'<button class="small-btn" data-act="open" data-path="'+esc(x.path)+'">打开</button>':''}`; }
-    else { actions=`<button class="small-btn" data-act="download" data-path="${esc(x.path)}">↓ 下载</button><button class="small-btn" data-act="share" data-path="${esc(x.path)}">↗ 分享</button>${x.type==='dir'?'<button class="small-btn" data-act="open" data-path="'+esc(x.path)+'">打开</button>':''}<button class="small-btn" data-act="move" data-path="${esc(x.path)}">移动</button><button class="small-btn" data-act="rename" data-path="${esc(x.path)}">✎</button><button class="small-btn red" data-act="delete" data-path="${esc(x.path)}">⌫</button>`; }
+    if(guestMode){ actions=`<button class="small-btn" data-act="download" data-path="${esc(x.path)}">下载</button><details class="operation-menu"><summary class="small-btn operation-trigger">操作</summary><div class="operation-dropdown">${x.type==='dir'?'<button class="menu-action" data-act="open" data-path="'+esc(x.path)+'">打开</button>':''}</div></details>`; }
+    else { actions=`<button class="small-btn" data-act="download" data-path="${esc(x.path)}">下载</button><button class="small-btn" data-act="share" data-path="${esc(x.path)}">分享</button><details class="operation-menu"><summary class="small-btn operation-trigger">操作</summary><div class="operation-dropdown">${x.type==='dir'?'<button class="menu-action" data-act="open" data-path="'+esc(x.path)+'">打开</button>':''}<button class="menu-action" data-act="move" data-path="${esc(x.path)}">移动</button><button class="menu-action" data-act="rename" data-path="${esc(x.path)}">重命名</button><button class="menu-action danger" data-act="delete" data-path="${esc(x.path)}">删除</button></div></details>`; }
     return `<tr data-row-type="${x.type}" data-row-path="${esc(x.path)}" title="${x.type==='dir'?'双击进入文件夹':''}"><td><div class="file-name">${x.type==='dir'?'<span class="folder-emoji">📁</span>':''}<span class="file-main" title="${esc(x.name)}">${esc(x.name)}</span></div></td><td>${x.type==='dir'?'文件夹':'文件'}</td><td>${x.type==='dir'?'—':bytes(x.size)}</td><td>${date(x.mtime)}</td><td><div class="row-actions">${actions}</div></td></tr>`;
   }).join(''):`<tr><td colspan="5"><div class="empty">📂<br><br>这个文件夹还是空的</div></td></tr>`;
-  const pages=Math.max(1,Math.ceil(state.files.length/state.pageSize));state.filePage=Math.min(state.filePage,pages);let p='';if(pages>1){for(let i=1;i<=pages;i++)p+=`<button class="page-btn ${i===state.filePage?'active':''}" data-file-page="${i}">${i}</button>`;}$('#filePager').innerHTML=state.files.length?`共 ${state.files.length} 项 ${p}`:'';$$('[data-file-page]').forEach(b=>b.onclick=()=>{state.filePage=+b.dataset.filePage;renderFiles();});
+  const pages=Math.max(1,Math.ceil(sorted.length/state.pageSize));state.filePage=Math.min(state.filePage,pages);let p='';if(pages>1){for(let i=1;i<=pages;i++)p+=`<button class="page-btn ${i===state.filePage?'active':''}" data-file-page="${i}">${i}</button>`;}$('#filePager').innerHTML=sorted.length?`共 ${sorted.length} 项 ${p}`:'';$$('[data-file-page]').forEach(b=>b.onclick=()=>{state.filePage=+b.dataset.filePage;renderFiles();});
 }
 $('#fileRows').onclick=async e=>{const b=e.target.closest('[data-act]');if(!b)return;const act=b.dataset.act,p=b.dataset.path;if(act==='open'){state.path=p;state.filePage=1;guestMode?loadGuestFiles():loadFiles();}if(act==='download')downloadPath(p);if(guestMode)return;if(act==='share')showShareCreate(p);if(act==='move')showMove(p);if(act==='rename')showRename(p);if(act==='delete')removePath(p);};
 $('#fileRows').ondblclick=e=>{if(e.target.closest('button,[data-act]'))return;const row=e.target.closest('tr[data-row-type="dir"]');if(!row)return;state.path=row.dataset.rowPath;state.filePage=1;loadFiles();};
+$$('[data-file-sort]').forEach(th=>th.onclick=()=>setFileSort(th.dataset.fileSort));
 $('#refreshBtn').onclick=loadFiles;
 $('#uploadBtn').onclick=()=>$('#fileInput').click();$('#folderBtn').onclick=()=>$('#folderInput').click();
 $('#newFolderBtn').onclick=showNewFolder;
